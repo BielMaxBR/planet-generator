@@ -27,7 +27,7 @@ func _process(delta: float) -> void:
 	counter += delta
 	
 	#noise_multiplier += 0.003
-	if counter > 0.5:
+	if counter > 0.05:
 		make()
 		counter = 0
 func make():
@@ -47,13 +47,13 @@ func make():
 		for i in 6:
 			for j in max_height:
 				var ang = actual_pos.angle()
-				var dist = Vector2(actual_pos.x/correction_factor, actual_pos.y).distance_squared_to(Vector2.ZERO)
+				var dist = Vector2(actual_pos.x/correction_factor, actual_pos.y).distance_to(Vector2.ZERO)
 				#var dist = actual_pos.distance_squared_to(Vector2.ZERO)
 				var xoff = (cos(ang)+1)*seed_radius + gl
 				var yoff = (sin(ang)+1)*seed_radius
 				var t = noise.get_noise_2d(xoff,yoff) + 1
 
-				var actual_radius = sqrt(t * noise_multiplier + min_radius)
+				var actual_radius = t * noise_multiplier + min_radius
 				if dist <= actual_radius:
 					has_tile = true
 					var tile: int = 0
