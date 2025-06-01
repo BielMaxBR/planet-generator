@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dh55627l6uupe"]
+
+[ext_resource type="Script" uid="uid://bsfpsj60xnf4j" path="res://scripts/test.gd" id="1_bl13t"]
+[ext_resource type="PackedScene" uid="uid://ci3mudmvfnhux" path="res://scenes/map.tscn" id="1_errlg"]
+
+[node name="Test" type="Node2D"]
+script = ExtResource("1_bl13t")
+
+[node name="Map" parent="." instance=ExtResource("1_errlg")]
+offset = Vector2(12, 12)
+noise_multiplier = 11
+min_radius = 16
+seed_radius = 3
+layers = [0.25, 0.5, 0.815, 1]

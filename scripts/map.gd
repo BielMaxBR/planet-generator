@@ -1,44 +1,26 @@
-extends Node2D
+extends TileMapLayer
 
-var offset = Vector2(71/2,53/2)
 var correction_factor = 12/16.0
 var gl = 0
 # todos de 0 a 100
+@export var offset = Vector2(35,26)
 @export var noise_multiplier = 15
 @export var min_radius := 15
 @export var seed_radius = 20
 # textura pré feita com noise2D, pode usar a linha de baixo caso não tenha
-@onready var texture: NoiseTexture2D = load("res://text.tres")
-#@onready var noise = texture.noise
+@onready var texture: NoiseTexture2D = load("res://sprites/text.tres")
+@onready var noise = texture.noise
 
+#@onready var noise = FastNoiseLite.new()
 @export var layers := [.25,.5,.93,1]
 
-@onready var noise = FastNoiseLite.new()
-
-func _ready() -> void:
-	$CanvasLayer/NoiseSlider.value = noise_multiplier
-	$CanvasLayer/RadiusSlider.value = min_radius
-	$CanvasLayer/SeedsSlider.value = seed_radius
-	make()
-	#noise_multiplier = 0.001
-var counter = 0
-func _process(delta: float) -> void:
-	gl += 1
-	counter += delta
-	
-	#noise_multiplier += 0.003
-	if counter > 0.05:
-		make()
-		counter = 0
 func make():
 	var mint = 0
 	var maxt = 0
-	$CanvasLayer/NoiseLabel.text = "Noise: %s" % str(noise_multiplier)
-	$CanvasLayer/RadiusLabel.text = "Radius: %s" % str(min_radius)
-	$CanvasLayer/SeedLabel.text =  "Seed: %s" % str(seed_radius)
-	$TileMapLayer.clear()
+	clear()
 	
-	var actual_pos = Vector2($TileMapLayer.get_surrounding_cells(Vector2.ZERO)[2])
+	#var actual_pos = Vector2($TileMapLayer.get_surrounding_cells(Vector2.ZERO)[5])
+	var actual_pos = Vector2.ZERO
 	draw(actual_pos,layers[-1])
 	var max_height = 1
 	var has_tile = true
@@ -67,9 +49,9 @@ func make():
 					draw(actual_pos,tile)
 				#else:
 					#print("no")
-				actual_pos = Vector2($TileMapLayer.get_surrounding_cells(actual_pos)[i])
+				actual_pos = Vector2(get_surrounding_cells(actual_pos)[i])
 				#await get_tree().physics_frame
-		actual_pos = Vector2($TileMapLayer.get_surrounding_cells(actual_pos)[4])
+		actual_pos = Vector2(get_surrounding_cells(actual_pos)[4])
 		max_height += 1
 	# código antigo
 	#var i = 0
@@ -94,35 +76,5 @@ func make():
 func draw(pos, tile):
 	#$TileMapLayer.set_cell($TileMapLayer.local_to_map(pos + offset),0,Vector2i(0,0))
 	#offset = Vector2(22,40)
-	$TileMapLayer.set_cell(pos + offset,0,Vector2i(tile,0))
+	set_cell(pos + offset,0,Vector2i(tile,0))
 	
-#func _draw() -> void:
-	#var i = 0
-	#while (i < 2*PI):
-		#var t = 10
-		#
-		#var pos = Vector2i((cos(i) * t) * min_radius, (sin(i) * t) * min_radius) + offset
-		#draw_circle(pos,2,Color.YELLOW)
-		#i += 0.01
-
-func change():
-	noise_multiplier = $CanvasLayer/NoiseSlider.value
-	min_radius = $CanvasLayer/RadiusSlider.value
-	seed_radius = $CanvasLayer/SeedsSlider.value
-	make()
-
-func _on_noise_slider_value_changed(value: float) -> void:
-	change()
-
-func _on_radius_slider_value_changed(value: float) -> void:
-	change()
-
-func _on_seeds_slider_value_changed(value: float) -> void:
-	change()
-
-
-func _on_zoom_slider_value_changed(value: float) -> void:
-	if value < 0.001: value = 0.1
-	var newzoom = Vector2.ONE * (value/2)
-	$Camera2D.zoom = newzoom
-	#$Camera2D.zoom = newzoom if newzoom.length() < 0.0001 else Vector2.ONE / 0.2
