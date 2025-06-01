@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2jb1oqg5bove"]
+
+[ext_resource type="Texture2D" uid="uid://b71ioovci82cu" path="res://text.tres" id="1_a202f"]
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_noarx"]
+albedo_texture = ExtResource("1_a202f")
+texture_filter = 0
+
+[node name="Node3D" type="Node3D"]
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
+cast_shadow = 0
+radial_segments = 48
+rings = 48
+smooth_faces = false
+material = SubResource("ORMMaterial3D_noarx")

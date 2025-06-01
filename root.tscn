@@ -1,0 +1,85 @@
+[gd_scene load_steps=5 format=3 uid="uid://dimv7fs6awfl0"]
+
+[ext_resource type="Script" uid="uid://c22s1eosgcvfg" path="res://root.gd" id="1_pyidc"]
+[ext_resource type="Texture2D" uid="uid://i1mbcu36e13d" path="res://atlas.png" id="2_pyidc"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vvh5c"]
+texture = ExtResource("2_pyidc")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_28aoi"]
+tile_shape = 3
+sources/0 = SubResource("TileSetAtlasSource_vvh5c")
+
+[node name="Root" type="Node2D"]
+script = ExtResource("1_pyidc")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_set = SubResource("TileSet_28aoi")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(578, 321)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="NoiseLabel" type="Label" parent="CanvasLayer"]
+offset_right = 44.0
+offset_bottom = 23.0
+text = "Noise"
+
+[node name="NoiseSlider" type="HSlider" parent="CanvasLayer"]
+offset_top = 24.0
+offset_right = 1152.0
+offset_bottom = 40.0
+step = 0.05
+value = 5.0
+
+[node name="RadiusLabel" type="Label" parent="CanvasLayer"]
+offset_top = 40.0
+offset_right = 52.0
+offset_bottom = 63.0
+text = "Radius"
+
+[node name="RadiusSlider" type="HSlider" parent="CanvasLayer"]
+offset_top = 57.0
+offset_right = 1152.0
+offset_bottom = 73.0
+step = 0.05
+value = 15.0
+
+[node name="SeedLabel" type="Label" parent="CanvasLayer"]
+offset_left = -1.0
+offset_top = 76.0
+offset_right = 51.0
+offset_bottom = 99.0
+text = "Seed"
+
+[node name="SeedsSlider" type="HSlider" parent="CanvasLayer"]
+offset_left = -1.0
+offset_top = 93.0
+offset_right = 1151.0
+offset_bottom = 109.0
+step = 0.05
+value = 15.0
+
+[node name="ZoomLabel" type="Label" parent="CanvasLayer"]
+offset_top = 111.0
+offset_right = 52.0
+offset_bottom = 134.0
+text = "Zoom"
+
+[node name="ZoomSlider" type="HSlider" parent="CanvasLayer"]
+offset_top = 128.0
+offset_right = 1152.0
+offset_bottom = 144.0
+max_value = 10.0
+step = 0.05
+value = 1.0
+
+[connection signal="value_changed" from="CanvasLayer/NoiseSlider" to="." method="_on_noise_slider_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/RadiusSlider" to="." method="_on_radius_slider_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/SeedsSlider" to="." method="_on_seeds_slider_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/ZoomSlider" to="." method="_on_zoom_slider_value_changed"]
